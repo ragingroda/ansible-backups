@@ -1,0 +1,220 @@
+Building configuration...
+
+Current configuration : 4734 bytes
+!
+! Last configuration change at 15:20:58 UTC Sat Oct 19 2024 by admin
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console virtual
+!
+hostname sitea
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no logging console
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2513722751
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2513722751
+ revocation-check none
+ rsakeypair TP-self-signed-2513722751
+!
+!
+crypto pki certificate chain TP-self-signed-2513722751
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 32353133 37323237 3531301E 170D3234 31303139 31333137 
+  31305A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 35313337 
+  32323735 31308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 
+  0A028201 0100CB8D 3C1C6617 E6760640 C6378C2C A467A564 CE6046A9 6154A185 
+  70F6579F 05BC9D4A 8ADF2702 4F4B2D44 24648784 1487B375 D6089992 98AE1E49 
+  CDA4A5C8 907AEE7A 50872864 20C41A52 720B68B1 F3D77F90 78D20817 54DFF209 
+  FEEB4CE7 1078B93E 595E530E 60AD501A D2FE5814 C3314AC7 27D72A0A BB16E97F 
+  446950ED 4CD8C675 0DC7E71D D197E712 B3BD8422 BC48BB3B 44927672 2B4ACD83 
+  70CD4748 5A846DC6 3A462CAD 697273F0 EA5F85E7 027A16BA 1BA0078B F5A91637 
+  D53A99CC 2EADC103 EBBE0DBD 1443AE2A C8403A47 D5C5622F 3B0BBEDD 7888EEA8 
+  DB66020E 928F8680 95939236 1F4C4EE3 6FF62322 1FF026D1 5CC89387 B9F36E2C 
+  0F398710 6ABF0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 
+  301F0603 551D2304 18301680 143ABDCE 5066BEFE E4CC07EF E9DD9F25 FC295CD5 
+  24301D06 03551D0E 04160414 3ABDCE50 66BEFEE4 CC07EFE9 DD9F25FC 295CD524 
+  300D0609 2A864886 F70D0101 05050003 82010100 5F77F25D 19D350EA E555969F 
+  2099799E A818673A B51BDAD0 DE1AA604 60FEC931 BA2CCD8C 01A61D24 711544E2 
+  DCC3770A C19A4F49 3A1FC4B6 A8DE4877 68E998A2 B5B06296 CDC6FFEB AF640B59 
+  C2319FA1 1A1281F0 33F75617 55368441 665E05A4 66CAD5A2 58FD579A E6AA013E 
+  CFB27F48 28B6AEB8 44C6AFCD 360329E0 26F924B5 E83AD861 FDA2B23F 7E83C80F 
+  B7ABB0FA 97AD65BC ADF85441 6A2E5A86 0F5D3542 0F3A90C8 949FA587 FE3BDB44 
+  D972A7F8 D2FD396C A0A0CA9B CF4E852B BD1EF960 DB56BAB6 D6FB8194 974360C8 
+  1CF4F263 4ED971C1 581A4088 2D08F75B 5BC8F9C2 16481A8F 950C780D 30EED1EB 
+  A7CFD214 83A82F64 4680BEEB B920CF4F 0D2C5862
+  	quit
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 98MR7V0J56J
+license boot level ax
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+username admin privilege 15 secret 5 $1$Llbl$v2tzdF2G3c4QZhdSXHIqQ1
+!
+redundancy
+!
+crypto ikev2 proposal WEBUI-PROPOSAL-Tunnel1 
+ encryption aes-cbc-256 aes-cbc-192 aes-cbc-128
+ integrity sha512 sha384 sha256 sha1 md5
+ group 2 5
+!
+crypto ikev2 policy WEBUI-POLICY 
+ match fvrf any
+ proposal WEBUI-PROPOSAL-Tunnel1
+!
+crypto ikev2 keyring WEBUI-KEYS
+ peer WEBUI-PEER-200.0.0.20
+  description KEY-PEER-200.0.0.20 
+  address 200.0.0.20 255.255.255.0
+  pre-shared-key 88888888
+ !
+!
+!
+crypto ikev2 profile WEBUI-IKEV2-PROFILE
+ match fvrf any
+ match identity remote address 200.0.0.20 255.255.255.255 
+ authentication remote pre-share
+ authentication local pre-share
+ keyring local WEBUI-KEYS
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+crypto ipsec transform-set WEBUI-TS-Tunnel1 esp-aes esp-sha-hmac 
+ mode tunnel
+!
+crypto ipsec profile WEBUI-IPSEC-PROFILE-Tunnel1
+ set transform-set WEBUI-TS-Tunnel1 
+ set ikev2-profile WEBUI-IKEV2-PROFILE
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface Loopback1
+ ip address 1.1.1.1 255.255.255.0
+!
+interface Tunnel1
+ description GOING TO SITE-B 
+ ip address 172.16.30.10 255.255.255.0
+ tunnel source GigabitEthernet1
+ tunnel mode ipsec ipv4
+ tunnel destination 200.0.0.20
+ tunnel protection ipsec profile WEBUI-IPSEC-PROFILE-Tunnel1
+!
+interface GigabitEthernet1
+ ip address dhcp
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 192.168.102.10 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ ip address 10.10.10.1 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip route 0.0.0.0 0.0.0.0 200.0.0.20
+ip route 10.20.20.0 255.255.255.0 Tunnel1
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ login local
+!
+!
+!
+!
+!
+!
+end
